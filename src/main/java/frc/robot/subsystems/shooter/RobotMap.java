@@ -4,17 +4,7 @@ public class RobotMap {
 
     public interface CAN {
 
-    }
-    
-    public interface DIO {
-
-    }
-    
-    public interface PWM {
-
-    }
-    
-    public interface AIN {
-    
+        int SHOOTER_TALON_ONE = 1;
+        int SHOOTER_TALON_TWO = 2;
     }
 }
