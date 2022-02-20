@@ -2,6 +2,7 @@ package frc.robot.drivetrains.tankdrivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
+import com.spikes2212.control.FeedForwardController;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
@@ -57,13 +58,10 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> TOLERANCE = rootNamespace.addConstantDouble("TOLERANCE", 0);
     private final Supplier<Double> WAIT_TIME = rootNamespace.addConstantDouble("WAIT_TIME", 1);
 
-    /**
-     * An object which holds PID constants and can be given to SpikesLib's PID-based commands.
-     */
     private final PIDSettings pidSettings = new PIDSettings(kP, kI, kD, TOLERANCE, WAIT_TIME);
 
     /**
-     * Constants for a feed forward controller More info in {@link com.spikes2212.control.FeedForwardController}.
+     * Constants for a feed forward controller More info in {@link FeedForwardController}.
      * Since they were made using {@code addConstantDouble}, they are constants relative to the code itself, but are
      * still able to be changed via the shuffleboard.
      */
@@ -72,9 +70,6 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> kA = rootNamespace.addConstantDouble("kA", 0);
     private final Supplier<Double> kG = rootNamespace.addConstantDouble("kG", 0);
 
-    /**
-     * An object which holds feed forward constants and can be given to SpikesLib's PID-based commands.
-     */
     private final FeedForwardSettings ffSettings = new FeedForwardSettings(kS, kV, kA, kG);
 
     private static Drivetrain instance;
@@ -87,19 +82,6 @@ public class Drivetrain extends TankDrivetrain {
         return instance;
     }
 
-    /**
-     * The super constructor accepts a {@link Namespace} name and two {@link MotorControllerGroup}s, a left one and a
-     * right one.
-     *
-     * <p>
-     * A namespace is an object which holds value on a {@link NetworkTable}, and {@link TankDrivetrain} has one as
-     * a field.
-     * </p>
-     * <p>
-     * A {@link BustedMotorControllerGroup} is an extension of {@link MotorControllerGroup} which allows you to set
-     * a correction to each side.
-     * </p>
-     */
     private Drivetrain() {
         super(
                 "drivetrain",
