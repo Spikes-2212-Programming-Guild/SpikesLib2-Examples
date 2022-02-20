@@ -2,6 +2,9 @@ package frc.robot.drivetrains.tankdrivetrain;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+/**
+ * An object which represents an OI, which handles the user's interfacing with the robot.
+ */
 public class OI /*GEVALD*/{
     private final Joystick leftJoystick;
     private final Joystick rightJoystick;

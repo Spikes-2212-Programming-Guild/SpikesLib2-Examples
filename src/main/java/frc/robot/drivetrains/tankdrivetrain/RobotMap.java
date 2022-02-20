@@ -1,5 +1,11 @@
 package frc.robot.drivetrains.tankdrivetrain;
 
+/**
+ * <p>
+ * A class which holds the ports of the devices which are connected to the robot.
+ * </p>
+ * Each interface represents a different form of connection.
+ */
 public class RobotMap {
 
     public interface CAN {
