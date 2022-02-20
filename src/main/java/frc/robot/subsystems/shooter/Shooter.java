@@ -8,6 +8,8 @@ import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.util.TalonEncoder;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 import java.util.function.Supplier;
 
@@ -18,12 +20,15 @@ public class Shooter extends MotoredGenericSubsystem {
     public static final double MIN_SPEED = 0;
 
     /**
-     * The PID constants' place on the shuffleboard.
+     * A {@link Namespace} is an object which holds values on the {@link NetworkTable}.
      */
     private final Namespace PID = rootNamespace.addChild("PID");
 
     public Supplier<Double> shootSpeed = rootNamespace.addConstantDouble("speed", 0.4);
 
+    /**
+     * Places the PID constants on the {@link Shuffleboard}.
+     */
     private final Supplier<Double> kP = PID.addConstantDouble("kP", 0);
     private final Supplier<Double> kI = PID.addConstantDouble("kI", 0);
     private final Supplier<Double> kD = PID.addConstantDouble("kD", 0);
@@ -55,7 +60,7 @@ public class Shooter extends MotoredGenericSubsystem {
     }
 
     /**
-     * Add any commands or data from this subsystem to the shuffleboard.
+     * Add any commands or data from this subsystem to the {@link Shuffleboard}.
      */
     @Override
     public void configureDashboard() {
