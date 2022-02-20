@@ -17,6 +17,9 @@ public class Shooter extends MotoredGenericSubsystem {
     public static final double MAX_SPEED = 0.6;
     public static final double MIN_SPEED = 0;
 
+    /**
+     * The PID constants' place on the shuffleboard.
+     */
     private final Namespace PID = rootNamespace.addChild("PID");
 
     public Supplier<Double> shootSpeed = rootNamespace.addConstantDouble("speed", 0.4);
@@ -51,6 +54,9 @@ public class Shooter extends MotoredGenericSubsystem {
         this.encoder = new TalonEncoder(talon1, DISTANCE_PER_PULSE);
     }
 
+    /**
+     * Add any commands or data from this subsystem to the shuffleboard.
+     */
     @Override
     public void configureDashboard() {
         rootNamespace.putData("shoot", new MoveGenericSubsystem(this, shootSpeed));
