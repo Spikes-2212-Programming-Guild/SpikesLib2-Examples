@@ -4,6 +4,8 @@
 
 package frc.robot.drivetrains.tankdrivetrain;
 
+import com.spikes2212.command.drivetrains.commands.DriveArcade;
+import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -15,6 +17,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
 
+  private final RootNamespace robotNamespace = new RootNamespace("robot");
+
+  private final Drivetrain drivetrain = Drivetrain.getInstance();
+
+  private final OI oi = new OI();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -22,8 +29,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
+    DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getLeftX, oi::getRightY);
+    robotNamespace.putData("drive", driveArcade);
   }
 
   /**
