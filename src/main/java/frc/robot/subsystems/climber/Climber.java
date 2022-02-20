@@ -16,7 +16,7 @@ public class Climber extends MotoredGenericSubsystem {
     /**
      * The speed in which the arms will move up to catch the bar (in order to climb).
      *
-     * <p>An game that this example subsystem can be used in is 2020 FRC INFINITE RECHARGE</p>
+     * <p>A game that this example subsystem can be used in is 2020 FRC INFINITE RECHARGE</p>
      */
     public final Supplier<Double> UP_SPEED = rootNamespace.addConstantDouble("up speed", 0.3);
 
