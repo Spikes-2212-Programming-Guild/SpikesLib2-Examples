@@ -60,7 +60,7 @@ public class Shooter extends MotoredGenericSubsystem {
     }
 
     /**
-     * Add any commands or data from this subsystem to the {@link Shuffleboard}.
+     * Adds any commands or data from this subsystem to the {@link Shuffleboard}.
      */
     @Override
     public void configureDashboard() {
