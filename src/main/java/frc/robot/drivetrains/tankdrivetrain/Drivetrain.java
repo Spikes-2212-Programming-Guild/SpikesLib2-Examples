@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 /**
  * This class represents a type of Drivetrain that its left and right sides are controlled independently, allowing it to
  * move by giving each side a speed value separately.
- * It can move forwards/backwards by giving both its sides an equal speed or turn by giving the sides different speeds.
+ * It can move forward/backward by giving both its sides an equal speed or turn by giving the sides different speeds.
  * In addition, this drivetrain includes encoders, settings for PID and FeedForward controllers, and communication with
  * the dashboard.
  */
