@@ -19,7 +19,14 @@ import java.util.function.Supplier;
  */
 public class Shooter extends MotoredGenericSubsystem {
 
-    public static final double DISTANCE_PER_PULSE = 10 / 4096.0;
+    /**
+     * The distance the wheel travels each encoder's pulse.
+     *
+     * <p>To find the correct distance per pulse (for rotations per minute), you will need to find the number <br>
+     * of pulses in one rotation (e.g. 4096). The distance per pulse will be 1 divided by this number.</p>
+     */
+    public static final double DISTANCE_PER_PULSE = 1 / 4096.0;
+
     public static final double MAX_SPEED = 0.6;
     public static final double MIN_SPEED = 0;
 
