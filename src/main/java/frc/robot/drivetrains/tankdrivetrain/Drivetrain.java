@@ -34,7 +34,7 @@ public class Drivetrain extends TankDrivetrain {
     private static final RootNamespace corrections = new RootNamespace("corrections");
 
     /**
-     * Constants which are used for fixing the drivetrain's deviation. More info in {@link BustedMotorControllerGroup}.
+     * Constants that are used for fixing the drivetrain's deviation. More info in {@link BustedMotorControllerGroup}.
      * Since they were made using {@code addConstantDouble}, they are constants relative to the code itself, but are
      * still able to be changed via the shuffleboard.
      */
@@ -68,9 +68,8 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> kS = rootNamespace.addConstantDouble("kS", 0);
     private final Supplier<Double> kV = rootNamespace.addConstantDouble("kV", 0);
     private final Supplier<Double> kA = rootNamespace.addConstantDouble("kA", 0);
-    private final Supplier<Double> kG = rootNamespace.addConstantDouble("kG", 0);
 
-    private final FeedForwardSettings ffSettings = new FeedForwardSettings(kS, kV, kA, kG);
+    private final FeedForwardSettings ffSettings = new FeedForwardSettings(kS, kV, kA);
 
     private static Drivetrain instance;
 
