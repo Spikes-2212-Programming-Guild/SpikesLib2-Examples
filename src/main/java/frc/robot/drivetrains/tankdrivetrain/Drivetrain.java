@@ -26,9 +26,7 @@ import java.util.function.Supplier;
 public class Drivetrain extends TankDrivetrain {
 
     /**
-     * <p>
-     * A namespace is an object which holds value on a {@link NetworkTable}.
-     * </p>
+     * <p> A namespace is an object which holds values on a {@link NetworkTable}. </p>
      * This is a namespace used for configuring the {@code LEFT_CORRECTION} and the {@code RIGHT_CORRECTION}.
      */
     private static final RootNamespace corrections = new RootNamespace("corrections");
@@ -44,6 +42,7 @@ public class Drivetrain extends TankDrivetrain {
             corrections.addConstantDouble("right correction", 1);
 
     /**
+     * The distance the robot moves every encoder pulse.
      * The wheel moves 15.24 * PI (its perimeter) each 360 ticks (in meters).
      */
     private static final double DISTANCE_PER_PULSE = 15.24 * Math.PI / 360.0 / 100;
@@ -57,13 +56,13 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> kP = rootNamespace.addConstantDouble("kP", 0);
     private final Supplier<Double> kI = rootNamespace.addConstantDouble("kI", 0);
     private final Supplier<Double> kD = rootNamespace.addConstantDouble("kD", 0);
-    private final Supplier<Double> TOLERANCE = rootNamespace.addConstantDouble("TOLERANCE", 0);
-    private final Supplier<Double> WAIT_TIME = rootNamespace.addConstantDouble("WAIT_TIME", 1);
+    private final Supplier<Double> TOLERANCE = rootNamespace.addConstantDouble("tolerance", 0);
+    private final Supplier<Double> WAIT_TIME = rootNamespace.addConstantDouble("wait time", 1);
 
     private final PIDSettings pidSettings = new PIDSettings(kP, kI, kD, TOLERANCE, WAIT_TIME);
 
     /**
-     * Constants for a feed forward controller. More info in {@link FeedForwardController}.
+     * Constants for a {@link FeedForwardController}.
      */
     private final Supplier<Double> kS = rootNamespace.addConstantDouble("kS", 0);
     private final Supplier<Double> kV = rootNamespace.addConstantDouble("kV", 0);
@@ -76,7 +75,6 @@ public class Drivetrain extends TankDrivetrain {
     public static Drivetrain getInstance() {
         if (instance == null) {
             instance = new Drivetrain();
-            instance.configureDashboard();
         }
         return instance;
     }
@@ -129,7 +127,7 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     /**
-     * sets the values which appear on the shuffleboard using a {@link Namespace}.
+     * Sets the values which appear on the shuffleboard using a {@link Namespace}.
      */
     public void configureDashboard() {
         rootNamespace.putNumber("left distance", this::getLeftDistance);
@@ -139,7 +137,6 @@ public class Drivetrain extends TankDrivetrain {
         rootNamespace.putData("reset gyro", new InstantCommand(this::resetGyro));
         rootNamespace.putData("drive forward", new DriveArcade(this, 0.5, 0));
         rootNamespace.putData("drive backward", new DriveArcade(this, -0.5, 0));
-
     }
 
     public PIDSettings getPIDSettings() {

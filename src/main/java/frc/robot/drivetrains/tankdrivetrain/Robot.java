@@ -13,9 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
 
     /**
-     * <p>
-     * A namespace is an object which holds value on a {@link NetworkTable}.
-     * </p>
+     * <p> A namespace is an object which holds value on a {@link NetworkTable}.</p>
      * This is the main namespace which should host the main values and commands which don't belong to a single subsystem
      * or command.
      */
@@ -28,12 +26,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         oi = new OI();
-        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getLeftX, oi::getRightY);
-        /*
-         * Puts the driveArcade on the dashboard under the keyname "drive", so that the user can easily turn it on and
-         * off using the shuffleboard.
-         */
-        robotNamespace.putData("drive", driveArcade);
+        drivetrain.configureDashboard();
     }
 
     @Override
@@ -61,6 +54,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getLeftX, oi::getRightY);
+        drivetrain.setDefaultCommand(driveArcade);
 
     }
 

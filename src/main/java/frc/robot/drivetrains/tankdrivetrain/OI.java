@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
  * Handles the active control over the robot from the user's side.
  */
 public class OI /*GEVALD*/ {
+
     private final Joystick leftJoystick = new Joystick(0);
     private final Joystick rightJoystick = new Joystick(1);
 

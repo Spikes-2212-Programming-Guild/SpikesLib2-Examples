@@ -5,7 +5,6 @@
 package frc.robot.drivetrains.tankdrivetrain;
 
 import edu.wpi.first.wpilibj.RobotBase;
-import frc.robot.subsystems.climber.Robot;
 
 /**
  * Do NOT add any static variables to this class, or any initialization at all. Unless you know what
