@@ -2,6 +2,8 @@ package frc.robot.drivetrains.tankdrivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
+import com.spikes2212.command.drivetrains.commands.DriveArcade;
+import com.spikes2212.command.drivetrains.commands.DriveTank;
 import com.spikes2212.control.FeedForwardController;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
@@ -29,7 +31,6 @@ public class Drivetrain extends TankDrivetrain {
      * <p>
      * A namespace is an object which holds value on a {@link NetworkTable}.
      * </p>
-     * <p>
      * This is a namespace used for configuring the {@code LEFT_CORRECTION} and the {@code RIGHT_CORRECTION}.
      */
     private static final RootNamespace corrections = new RootNamespace("corrections");
@@ -44,13 +45,13 @@ public class Drivetrain extends TankDrivetrain {
     private static final Supplier<Double> RIGHT_CORRECTIONS =
             corrections.addConstantDouble("right correction", 1);
 
+    private static final double DISTANCE_PER_PULSE = 6*0.0254*3.14/360;
+
     private final Encoder leftEncoder, rightEncoder;
     private final ADXRS450_Gyro gyro;
 
     /**
-     * Constants for a PID controller.
-     * Since they were made using {@code addConstantDouble}, they are constants relative to the code itself, but are
-     * still able to be changed via the shuffleboard.
+     * constants for a PID controller
      */
     private final Supplier<Double> kP = rootNamespace.addConstantDouble("kP", 0);
     private final Supplier<Double> kI = rootNamespace.addConstantDouble("kI", 0);
@@ -61,9 +62,7 @@ public class Drivetrain extends TankDrivetrain {
     private final PIDSettings pidSettings = new PIDSettings(kP, kI, kD, TOLERANCE, WAIT_TIME);
 
     /**
-     * Constants for a feed forward controller More info in {@link FeedForwardController}.
-     * Since they were made using {@code addConstantDouble}, they are constants relative to the code itself, but are
-     * still able to be changed via the shuffleboard.
+     * Constants for a feed forward controller. More info in {@link FeedForwardController}.
      */
     private final Supplier<Double> kS = rootNamespace.addConstantDouble("kS", 0);
     private final Supplier<Double> kV = rootNamespace.addConstantDouble("kV", 0);
@@ -98,6 +97,8 @@ public class Drivetrain extends TankDrivetrain {
         );
         this.leftEncoder = new Encoder(RobotMap.DIO.LEFT_ENCODER_A, RobotMap.DIO.LEFT_ENCODER_B);
         this.rightEncoder = new Encoder(RobotMap.DIO.RIGHT_ENCODER_A, RobotMap.DIO.RIGHT_ENCODER_B);
+        leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
+        rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.gyro = new ADXRS450_Gyro();
     }
 
@@ -136,6 +137,9 @@ public class Drivetrain extends TankDrivetrain {
         rootNamespace.putNumber("angle", this::getAngle);
         rootNamespace.putData("reset encoders", new InstantCommand(this::resetEncoders));
         rootNamespace.putData("reset gyro", new InstantCommand(this::resetGyro));
+        rootNamespace.putData("drive forward", new DriveArcade(this, 0.5, 0));
+        rootNamespace.putData("drive backward", new DriveArcade(this, -0.5, 0));
+
     }
 
     public PIDSettings getPIDSettings() {

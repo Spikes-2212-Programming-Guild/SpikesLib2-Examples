@@ -16,7 +16,6 @@ public class Robot extends TimedRobot {
      * <p>
      * A namespace is an object which holds value on a {@link NetworkTable}.
      * </p>
-     * <p>
      * This is the main namespace which should host the main values and commands which don't belong to a single subsystem
      * or command.
      */
@@ -24,10 +23,11 @@ public class Robot extends TimedRobot {
 
     private final Drivetrain drivetrain = Drivetrain.getInstance();
 
-    private final OI oi = new OI();
+    private OI oi;
 
     @Override
     public void robotInit() {
+        oi = new OI();
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getLeftX, oi::getRightY);
         /*
          * Puts the driveArcade on the dashboard under the keyname "drive", so that the user can easily turn it on and
