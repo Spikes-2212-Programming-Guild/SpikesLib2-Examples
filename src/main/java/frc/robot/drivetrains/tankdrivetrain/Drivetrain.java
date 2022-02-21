@@ -45,7 +45,10 @@ public class Drivetrain extends TankDrivetrain {
     private static final Supplier<Double> RIGHT_CORRECTIONS =
             corrections.addConstantDouble("right correction", 1);
 
-    private static final double DISTANCE_PER_PULSE = 6*0.0254*3.14/360;
+    /**
+     * The wheel moves 15.24 * PI (its perimeter) each 360 ticks (in meters).
+     */
+    private static final double DISTANCE_PER_PULSE = 15.24 * Math.PI / 360.0 / 100;
 
     private final Encoder leftEncoder, rightEncoder;
     private final ADXRS450_Gyro gyro;
