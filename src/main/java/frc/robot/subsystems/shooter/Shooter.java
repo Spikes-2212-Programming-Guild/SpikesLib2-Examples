@@ -28,7 +28,7 @@ public class Shooter extends MotoredGenericSubsystem {
      */
     private final Namespace PID = rootNamespace.addChild("PID");
 
-    public Supplier<Double> shootSpeed = rootNamespace.addConstantDouble("speed", 0.4);
+    public Supplier<Double> shootingVelocity = rootNamespace.addConstantDouble("speed", 0.4);
 
     /**
      * Places the PID constants on the {@link Shuffleboard}.
@@ -41,7 +41,7 @@ public class Shooter extends MotoredGenericSubsystem {
     private final Supplier<Double> tolerance = PID.addConstantDouble("tolerance", 0);
     private final Supplier<Double> waitTime = PID.addConstantDouble("wait time", 0);
 
-    private final Supplier<Double> targetSpeed = PID.addConstantDouble("target speed", 0);
+    private final Supplier<Double> targetVelocity = PID.addConstantDouble("target speed", 0);
 
     public final PIDSettings pidSettings = new PIDSettings(kP, kI, kD, tolerance, waitTime);
     public final FeedForwardSettings ffSettings = new FeedForwardSettings(kS, kV, () -> 0.0);
@@ -68,8 +68,8 @@ public class Shooter extends MotoredGenericSubsystem {
      */
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("shoot", new MoveGenericSubsystem(this, shootSpeed));
-        rootNamespace.putData("pid shoot", new MoveGenericSubsystemWithPIDForSpeed(this, targetSpeed,
+        rootNamespace.putData("shoot", new MoveGenericSubsystem(this, shootingVelocity));
+        rootNamespace.putData("pid shoot", new MoveGenericSubsystemWithPIDForSpeed(this, targetVelocity,
                 encoder::getVelocity, pidSettings, ffSettings));
     }
 }
