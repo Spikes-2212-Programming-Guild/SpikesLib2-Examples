@@ -13,6 +13,10 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 import java.util.function.Supplier;
 
+/**
+ * This class represents a shooter subsystem that is controlled with two {@link WPI_TalonSRX}.<br>
+ * In addition, it has settings for PID and matching commands, allowing it to interact with the {@link Shuffleboard}.
+ */
 public class Shooter extends MotoredGenericSubsystem {
 
     public static final double DISTANCE_PER_PULSE = 10 / 4096.0;
