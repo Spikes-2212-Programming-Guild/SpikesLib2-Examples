@@ -10,20 +10,17 @@ import java.util.function.Supplier;
 
 public class Climber extends MotoredGenericSubsystem {
 
-    public static final double MAX_SPEED = 0.5;
-    public static final double MIN_SPEED = -0.5;
-
     /**
      * The speed in which the arms will move up to catch the bar (in order to climb).
      *
      * <p>A game that this example subsystem can be used in is 2020 FRC INFINITE RECHARGE</p>
      */
-    public final Supplier<Double> UP_SPEED = rootNamespace.addConstantDouble("up speed", 0.3);
+    public static final double UP_SPEED = 0.3;
 
     /**
      * The speed in which the arms will move down in order to take the robot up after they caught the bar.
      */
-    public final Supplier<Double> DOWN_SPEED = rootNamespace.addConstantDouble("down speed", -0.4);
+    public static final double DOWN_SPEED = -0.4;
 
     private static Climber instance;
 
@@ -39,7 +36,7 @@ public class Climber extends MotoredGenericSubsystem {
     private WPI_VictorSPX motor;
 
     public Climber(WPI_VictorSPX motor) {
-        super(MIN_SPEED, MAX_SPEED, "climber", motor);
+        super(DOWN_SPEED, UP_SPEED, "climber", motor);
         this.motor = motor;
     }
 
