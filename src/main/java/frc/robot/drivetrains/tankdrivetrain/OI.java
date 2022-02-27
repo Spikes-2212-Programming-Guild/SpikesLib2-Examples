@@ -3,7 +3,7 @@ package frc.robot.drivetrains.tankdrivetrain;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
- * Handles the active control over the robot from the user's side.
+ * Handles the communication between the user and the robot.
  */
 public class OI /*GEVALD*/ {
 

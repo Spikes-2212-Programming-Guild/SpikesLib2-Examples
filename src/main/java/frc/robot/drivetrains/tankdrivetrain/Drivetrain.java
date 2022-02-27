@@ -20,13 +20,13 @@ import java.util.function.Supplier;
  * This class represents a type of Drivetrain that its left and right sides are controlled independently, allowing it to
  * move by giving each side a speed value separately.
  * It can move forward/backward by giving both its sides an equal speed or turn by giving the sides different speeds.
- * In addition, this drivetrain includes encoders, settings for PID and FeedForward controllers, and communication with
+ * In addition, this drivetrain includes encoders, a gyro sensor, settings for PID and FeedForward controllers, and communication with
  * the dashboard.
  */
 public class Drivetrain extends TankDrivetrain {
 
     /**
-     * <p> A namespace is an object which holds values on a {@link NetworkTable}. </p>
+     * <p> A namespace is an object that holds values on a {@link NetworkTable}. </p>
      * This is a namespace used for configuring the {@code LEFT_CORRECTION} and the {@code RIGHT_CORRECTION}.
      */
     private static final RootNamespace corrections = new RootNamespace("corrections");
@@ -70,6 +70,9 @@ public class Drivetrain extends TankDrivetrain {
 
     private final FeedForwardSettings ffSettings = new FeedForwardSettings(kS, kV, kA);
 
+    /**
+     * Class singleton - since there should only be one instance of each subsystem, each subsystem class contains one.
+     */
     private static Drivetrain instance;
 
     public static Drivetrain getInstance() {
@@ -108,7 +111,17 @@ public class Drivetrain extends TankDrivetrain {
         return rightEncoder.getDistance();
     }
 
+    /**
+     * @return the robot's current angle in the range (0, infinity)
+     */
     public double getAngle() {
+        return gyro.getAngle();
+    }
+
+    /**
+     * @return the robot's current angle in the range (-180, 180]
+     */
+    public double getModifiedAngle() {
         double angle = gyro.getAngle() % 360;
         if (angle > 180)
             angle -= 360;
@@ -132,7 +145,7 @@ public class Drivetrain extends TankDrivetrain {
     public void configureDashboard() {
         rootNamespace.putNumber("left distance", this::getLeftDistance);
         rootNamespace.putNumber("right distance", this::getRightDistance);
-        rootNamespace.putNumber("angle", this::getAngle);
+        rootNamespace.putNumber("angle", this::getModifiedAngle);
         rootNamespace.putData("reset encoders", new InstantCommand(this::resetEncoders));
         rootNamespace.putData("reset gyro", new InstantCommand(this::resetGyro));
         rootNamespace.putData("drive forward", new DriveArcade(this, 0.5, 0));
