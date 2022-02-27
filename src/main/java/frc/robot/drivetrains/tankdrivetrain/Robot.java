@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
 
     /**
-     * <p> A namespace is an object that holds value on a {@link NetworkTable}.</p>
+     * <p> A namespace is an object that holds values on a {@link NetworkTable}.</p>
      * This is the main namespace which should host the main values and commands which don't belong to a single subsystem
      * or command.
      */
