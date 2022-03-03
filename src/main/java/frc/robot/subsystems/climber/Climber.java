@@ -8,12 +8,13 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 import java.util.function.Supplier;
 
+/**
+ * A game that this example subsystem can be used in is FRC Rapid React 2022.
+ */
 public class Climber extends MotoredGenericSubsystem {
 
     /**
      * The speed in which the arms will move up to catch the bar (in order to climb).
-     *
-     * <p>A game that this example subsystem can be used in is 2020 FRC INFINITE RECHARGE</p>
      */
     public static final double UP_SPEED = 0.3;
 
@@ -35,7 +36,7 @@ public class Climber extends MotoredGenericSubsystem {
 
     private WPI_VictorSPX motor;
 
-    public Climber(WPI_VictorSPX motor) {
+    private Climber(WPI_VictorSPX motor) {
         super(DOWN_SPEED, UP_SPEED, "climber", motor);
         this.motor = motor;
     }
