@@ -3,6 +3,8 @@ package frc.robot.drivetrains.tankdrivetrain;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
+import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
+import com.spikes2212.command.drivetrains.commands.DriveTankWithPID;
 import com.spikes2212.control.FeedForwardController;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
@@ -26,7 +28,7 @@ import java.util.function.Supplier;
 public class Drivetrain extends TankDrivetrain {
 
     /**
-     * <p> A namespace is an object that holds values on a {@link NetworkTable}. </p>
+     * <p> A namespace is an object that holds values in a {@link NetworkTable}. </p>
      * This is a namespace used for configuring the {@code LEFT_CORRECTION} and the {@code RIGHT_CORRECTION}.
      */
     private static final RootNamespace corrections = new RootNamespace("corrections");
@@ -43,13 +45,15 @@ public class Drivetrain extends TankDrivetrain {
 
     /**
      * The distance the robot moves every encoder pulse.
-     * The wheel moves 15.24 * PI (its perimeter) each 360 ticks (in meters).
+     * Our wheel moves 15.24 * PI (its perimeter) each 360 ticks (in meters).
      */
     private static final double DISTANCE_PER_PULSE = 15.24 * Math.PI / 360.0 / 100;
 
     private final Encoder leftEncoder, rightEncoder;
     private final ADXRS450_Gyro gyro;
 
+    private final Supplier<Double> DRIVE_SPEED = rootNamespace.addConstantDouble("drive speed", 0.5);
+    private final Supplier<Double> METERS_TO_DRIVE = rootNamespace.addConstantDouble("meters to drive", 2);
     /**
      * constants for a PID controller
      */
@@ -148,8 +152,10 @@ public class Drivetrain extends TankDrivetrain {
         rootNamespace.putNumber("angle", this::getModifiedAngle);
         rootNamespace.putData("reset encoders", new InstantCommand(this::resetEncoders));
         rootNamespace.putData("reset gyro", new InstantCommand(this::resetGyro));
-        rootNamespace.putData("drive forward", new DriveArcade(this, 0.5, 0));
-        rootNamespace.putData("drive backward", new DriveArcade(this, -0.5, 0));
+        rootNamespace.putData("drive forward", new DriveArcade(this, DRIVE_SPEED, () -> 0.0));
+        rootNamespace.putData("drive backward", new DriveArcade(this, () -> -DRIVE_SPEED.get(), () -> 0.0));
+        rootNamespace.putData("drive forward two meters", new DriveTankWithPID(this, pidSettings, pidSettings,
+                METERS_TO_DRIVE, METERS_TO_DRIVE, this::getLeftDistance, this::getRightDistance, ffSettings, ffSettings));
     }
 
     public PIDSettings getPIDSettings() {
