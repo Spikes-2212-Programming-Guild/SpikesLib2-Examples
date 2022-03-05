@@ -4,55 +4,78 @@
 
 package frc.robot.drivetrains.tankdrivetrain;
 
+import com.spikes2212.command.drivetrains.commands.DriveArcade;
+import com.spikes2212.dashboard.RootNamespace;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
 
+    /**
+     * <p> A namespace is an object that holds values on a {@link NetworkTable}.</p>
+     * This is the main namespace which should host the main values and commands which don't belong to a single subsystem
+     * or command.
+     */
+    private final RootNamespace robotNamespace = new RootNamespace("robot");
 
-  @Override
-  public void robotInit() {
+    private final Drivetrain drivetrain = Drivetrain.getInstance();
 
-  }
+    private OI oi;
 
-  @Override
-  public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
-  }
+    @Override
+    public void robotInit() {
+        oi = new OI();
+        drivetrain.configureDashboard();
+    }
 
-  @Override
-  public void disabledInit() {}
+    @Override
+    public void robotPeriodic() {
+        drivetrain.periodic();
+        CommandScheduler.getInstance().run();
+    }
 
-  @Override
-  public void disabledPeriodic() {}
+    @Override
+    public void disabledInit() {
+    }
 
-  @Override
-  public void autonomousInit() {
-  
-  }
+    @Override
+    public void disabledPeriodic() {
+    }
 
-  @Override
-  public void autonomousPeriodic() {}
+    @Override
+    public void autonomousInit() {
 
-  @Override
-  public void teleopInit() {
+    }
 
-  }
+    @Override
+    public void autonomousPeriodic() {
+    }
 
-  @Override
-  public void teleopPeriodic() {}
+    @Override
+    public void teleopInit() {
+        DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getLeftX, oi::getRightY);
+        drivetrain.setDefaultCommand(driveArcade);
 
-  @Override
-  public void testInit() {
-    CommandScheduler.getInstance().cancelAll();
-  }
+    }
 
-  @Override
-  public void testPeriodic() {}
+    @Override
+    public void teleopPeriodic() {
+    }
 
-  @Override
-  public void simulationInit() {}
+    @Override
+    public void testInit() {
+        CommandScheduler.getInstance().cancelAll();
+    }
 
-  @Override
-  public void simulationPeriodic() {}
+    @Override
+    public void testPeriodic() {
+    }
+
+    @Override
+    public void simulationInit() {
+    }
+
+    @Override
+    public void simulationPeriodic() {
+    }
 }
