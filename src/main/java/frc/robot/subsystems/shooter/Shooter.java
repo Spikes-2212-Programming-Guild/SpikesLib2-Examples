@@ -55,7 +55,7 @@ public class Shooter extends MotoredGenericSubsystem {
     public final FeedForwardSettings ffSettings = new FeedForwardSettings(kS, kV, () -> 0.0);
 
     /**
-     * The Climber class is a singleton, which means it has only one instance. Since the constructor is private, a new
+     * The Shooter class is a singleton, which means it has only one instance. Since the constructor is private, a new
      * instance cannot be instantiated, and you can only access the existing instance via the {@code getInstance()}
      * function.
      */
