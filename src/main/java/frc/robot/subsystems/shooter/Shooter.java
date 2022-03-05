@@ -55,8 +55,9 @@ public class Shooter extends MotoredGenericSubsystem {
     public final FeedForwardSettings ffSettings = new FeedForwardSettings(kS, kV, () -> 0.0);
 
     /**
-     * With only a private constructor and a single private instance with a public getter, the singleton design pattern
-     * ensures that there is only one instance of a specific class, while providing public access to this instance.
+     * The Climber class is a singleton, which means it has only one instance. Since the constructor is private, a new
+     * instance cannot be instantiated, and you can only access the existing instance via the {@code getInstance()}
+     * function.
      */
     private static Shooter instance;
 
