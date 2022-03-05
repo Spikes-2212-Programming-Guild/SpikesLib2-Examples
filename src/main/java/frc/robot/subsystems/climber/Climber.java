@@ -25,8 +25,10 @@ public class Climber extends MotoredGenericSubsystem {
      */
     public static final double DOWN_SPEED = -0.4;
 
-    private WPI_VictorSPX motor;
-
+    /**
+     * With only a private constructor and a single private instance with a public getter, the singleton design pattern
+     * ensures that there is only one instance of a specific class, while providing public access to this instance.
+     */
     private static Climber instance;
 
     public static Climber getInstance() {
@@ -40,7 +42,6 @@ public class Climber extends MotoredGenericSubsystem {
 
     private Climber(WPI_VictorSPX motor) {
         super(DOWN_SPEED, UP_SPEED, "climber", motor);
-        this.motor = motor;
     }
 
     /**
