@@ -40,7 +40,7 @@ public class Shooter extends MotoredGenericSubsystem {
     /**
      * Places the PID constants on the {@link Shuffleboard}.
      */
-    private final Supplier<Double> kP = PID.addConstantDouble("kP", 0);
+    private final Supplier<Double> kP = PID.addConstantDouble("kP", 1);
     private final Supplier<Double> kI = PID.addConstantDouble("kI", 0);
     private final Supplier<Double> kD = PID.addConstantDouble("kD", 0);
     private final Supplier<Double> kS = PID.addConstantDouble("kS", 0);
