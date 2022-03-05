@@ -31,7 +31,8 @@ public class Shooter extends MotoredGenericSubsystem {
     public static final double MIN_SPEED = 0;
 
     /**
-     * A {@link Namespace} is an object that holds values on the {@link NetworkTable}.
+     * A {@link Namespace} is an object that holds values on the {@link NetworkTable}.<br>
+     * This namespace holds the necessary constants for the PID loop used by this subsystem.
      */
     private final Namespace PID = rootNamespace.addChild("PID");
 
@@ -48,13 +49,20 @@ public class Shooter extends MotoredGenericSubsystem {
     private final Supplier<Double> tolerance = PID.addConstantDouble("tolerance", 0);
     private final Supplier<Double> waitTime = PID.addConstantDouble("wait time", 1);
 
-    private final Supplier<Double> targetVelocity = PID.addConstantDouble("target speed", 0);
+    private final Supplier<Double> targetVelocity = PID.addConstantDouble("target speed", 60);
 
     public final PIDSettings pidSettings = new PIDSettings(kP, kI, kD, tolerance, waitTime);
     public final FeedForwardSettings ffSettings = new FeedForwardSettings(kS, kV, () -> 0.0);
 
+    /**
+     * With only a private constructor and a single private instance with a public getter, the singleton design pattern
+     * ensures that there is only one instance of a specific class, while providing public access to this instance.
+     */
     private static Shooter instance;
 
+    /**
+     * An encoder that is connected to a {@link WPI_TalonSRX} as the PIDSource.
+     */
     private final TalonEncoder encoder;
 
     public static Shooter getInstance() {
