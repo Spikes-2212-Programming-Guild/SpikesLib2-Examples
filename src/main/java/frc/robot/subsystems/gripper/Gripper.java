@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * A subsystem which represents a gripper. The gripper consists of two motors, that both rotate either inwards or
+ * A gripper subsystem which consists of two motors, that both rotate either inwards or
  * outwards. If they both rotate inwards, the gripper intakes a cargo. If they both rotate outwards, the gripper
  * dispenses the cargo.
  */
