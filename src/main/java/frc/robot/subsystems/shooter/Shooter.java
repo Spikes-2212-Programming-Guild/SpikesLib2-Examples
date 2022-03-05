@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 public class Shooter extends MotoredGenericSubsystem {
 
     /**
-     * The distance the wheel travels each encoder's pulse.
+     * The distance the wheel moves each encoder's pulse.
      *
      * <p>To find the correct distance per pulse, you will need to find the number <br>
      * of pulses in one rotation (e.g. 4096). The distance per pulse will be 1 divided by this number.</p>
@@ -36,7 +36,7 @@ public class Shooter extends MotoredGenericSubsystem {
      */
     private final Namespace PID = rootNamespace.addChild("PID");
 
-    public Supplier<Double> shootingVelocity = rootNamespace.addConstantDouble("speed", 0.4);
+    public final Supplier<Double> SHOOTING_SPEED = rootNamespace.addConstantDouble("speed", 0.4);
 
     /**
      * Places the PID constants on the {@link Shuffleboard}.
@@ -85,7 +85,7 @@ public class Shooter extends MotoredGenericSubsystem {
      */
     @Override
     public void configureDashboard() {
-        rootNamespace.putData("shoot", new MoveGenericSubsystem(this, shootingVelocity));
+        rootNamespace.putData("shoot", new MoveGenericSubsystem(this, SHOOTING_SPEED));
         rootNamespace.putData("pid shoot", new MoveGenericSubsystemWithPIDForSpeed(this, targetVelocity,
                 encoder::getVelocity, pidSettings, ffSettings));
     }
