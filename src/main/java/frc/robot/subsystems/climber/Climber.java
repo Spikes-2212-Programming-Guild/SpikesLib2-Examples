@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 /**
  * A subsystem which represents a climber. The climber consists of an arm that is controlled by a VictorSPX. The arm
- * can move up and down, thus making the robot climb. <br>
+ * can move up and grab a bar, then down to pull the robot up; thus making the robot climb. <br>
  * A game that this example subsystem can be used in is FRC Rapid React 2022.
  */
 public class Climber extends MotoredGenericSubsystem {
