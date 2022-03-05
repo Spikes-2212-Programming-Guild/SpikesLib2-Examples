@@ -31,7 +31,7 @@ public class Shooter extends MotoredGenericSubsystem {
     public static final double MIN_SPEED = 0;
 
     /**
-     * A {@link Namespace} is an object which holds values on the {@link NetworkTable}.
+     * A {@link Namespace} is an object which holds values in a {@link NetworkTable}.
      */
     private final Namespace PID = rootNamespace.addChild("PID");
 
