@@ -22,7 +22,7 @@ public class Shooter extends MotoredGenericSubsystem {
     /**
      * The distance the wheel travels each encoder's pulse.
      *
-     * <p>To find the correct distance per pulse (for rotations per minute), you will need to find the number <br>
+     * <p>To find the correct distance per pulse, you will need to find the number <br>
      * of pulses in one rotation (e.g. 4096). The distance per pulse will be 1 divided by this number.</p>
      */
     public static final double DISTANCE_PER_PULSE = 1 / 4096.0;
@@ -31,7 +31,7 @@ public class Shooter extends MotoredGenericSubsystem {
     public static final double MIN_SPEED = 0;
 
     /**
-     * A {@link Namespace} is an object which holds values on the {@link NetworkTable}.
+     * A {@link Namespace} is an object that holds values on the {@link NetworkTable}.
      */
     private final Namespace PID = rootNamespace.addChild("PID");
 
@@ -46,7 +46,7 @@ public class Shooter extends MotoredGenericSubsystem {
     private final Supplier<Double> kS = PID.addConstantDouble("kS", 0);
     private final Supplier<Double> kV = PID.addConstantDouble("kV", 0);
     private final Supplier<Double> tolerance = PID.addConstantDouble("tolerance", 0);
-    private final Supplier<Double> waitTime = PID.addConstantDouble("wait time", 0);
+    private final Supplier<Double> waitTime = PID.addConstantDouble("wait time", 1);
 
     private final Supplier<Double> targetVelocity = PID.addConstantDouble("target speed", 0);
 
