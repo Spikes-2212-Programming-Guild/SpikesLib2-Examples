@@ -19,7 +19,8 @@ public class Gripper extends MotoredGenericSubsystem {
     /**
      * The Gripper class is a singleton, which means it has only one instance. Since the constructor is private, a new
      * instance cannot be instantiated, and you can only access the existing instance via the {@code getInstance()}
-     * function.
+     * function. <br>
+     * Since the robot itself only has one gripper, we want only one instance of the class.
      */
     private static Gripper instance;
 
