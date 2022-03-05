@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 /**
  * A subsystem which represents a climber. The climber consists of an arm that is controlled by a VictorSPX. The arm
  * can move up and grab a bar, then down to pull the robot up; thus making the robot climb. <br>
- * A game that this example subsystem can be used in is FRC Rapid React 2022.
+ * A game that this example subsystem can be used in is Rapid React 2022.
  */
 public class Climber extends MotoredGenericSubsystem {
 
@@ -26,8 +26,9 @@ public class Climber extends MotoredGenericSubsystem {
     public static final double DOWN_SPEED = -0.4;
 
     /**
-     * With only a private constructor and a single private instance with a public getter, the singleton design pattern
-     * ensures that there is only one instance of a specific class, while providing public access to this instance.
+     * The Climber class is a singleton, which means it has only one instance. Since the constructor is private, a new
+     * instance cannot be instantiated, and you can only access the existing instance via the {@code getInstance()}
+     * function.
      */
     private static Climber instance;
 
