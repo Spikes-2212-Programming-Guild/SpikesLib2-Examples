@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import java.util.function.Supplier;
 
 /**
+ * A subsystem which represents a climber. The climber consists of an arm that is controlled by a VictorSPX. The arm
+ * can move up and down, thus making the robot climb. <br>
  * A game that this example subsystem can be used in is FRC Rapid React 2022.
  */
 public class Climber extends MotoredGenericSubsystem {
@@ -23,6 +25,8 @@ public class Climber extends MotoredGenericSubsystem {
      */
     public static final double DOWN_SPEED = -0.4;
 
+    private WPI_VictorSPX motor;
+
     private static Climber instance;
 
     public static Climber getInstance() {
@@ -33,8 +37,6 @@ public class Climber extends MotoredGenericSubsystem {
         }
         return instance;
     }
-
-    private WPI_VictorSPX motor;
 
     private Climber(WPI_VictorSPX motor) {
         super(DOWN_SPEED, UP_SPEED, "climber", motor);
