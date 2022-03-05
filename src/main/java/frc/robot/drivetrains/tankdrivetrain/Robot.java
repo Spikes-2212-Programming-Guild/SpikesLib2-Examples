@@ -6,7 +6,6 @@ package frc.robot.drivetrains.tankdrivetrain;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.dashboard.RootNamespace;
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
