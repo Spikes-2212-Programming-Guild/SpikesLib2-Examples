@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
         transfer = new MotoredGenericSubsystem("transfer",
                 new WPI_VictorSPX(RobotMap.CAN.TRANSFER_VICTOR_1), new WPI_VictorSPX(RobotMap.CAN.TRANSFER_VICTOR_2));
 
-        // Places a command which moves the transfer subsystem on the SmartDashboard.
+        // Places a command which moves the transfer subsystem on the Shuffleboard.
         robotNamespace.putData("move transfer", new MoveGenericSubsystem(transfer, TRANSFER_SPEED));
     }
 
