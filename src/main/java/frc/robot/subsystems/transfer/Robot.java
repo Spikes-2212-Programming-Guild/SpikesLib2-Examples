@@ -14,77 +14,75 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
 
-  public static final double TRANSFER_SPEED = 0.5;
+    public static final double TRANSFER_SPEED = 0.5;
 
-  /**
-   * A namespace is an object that holds values in a {@link NetworkTable}.
-   */
-  private RootNamespace robotNamespace;
-
-  /*
-   * A subsystem which transfers cargos. It consists of two MotorControllers that move a timing strap. The strap
-   * puts pressure on a cargo, and thus the cargo moves along with the strap.
-   */
-  MotoredGenericSubsystem transfer;
-
-
-  @Override
-  public void robotInit() {
-    robotNamespace = new RootNamespace("robot");
-
-    transfer = new MotoredGenericSubsystem("transfer",
-            new WPI_VictorSPX(RobotMap.CAN.TRANSFER_VICTOR_1), new WPI_VictorSPX(RobotMap.CAN.TRANSFER_VICTOR_2));
+    /**
+     * A namespace is an object that holds values in a {@link NetworkTable}.
+     */
+    private RootNamespace robotNamespace;
 
     /*
-     * Places a command which moves the transfer subsystem on the SmartDashboard.
+     * A subsystem which transfers cargos. It consists of two MotorControllers that move a timing strap. The strap
+     * puts pressure on a cargo, and thus the cargo moves along with the strap.
      */
-    robotNamespace.putData("move transfer", new MoveGenericSubsystem(transfer, TRANSFER_SPEED));
-  }
+    MotoredGenericSubsystem transfer;
 
-  @Override
-  public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
-  }
 
-  @Override
-  public void disabledInit() {
-  }
+    @Override
+    public void robotInit() {
+        robotNamespace = new RootNamespace("robot");
 
-  @Override
-  public void disabledPeriodic() {
-  }
+        transfer = new MotoredGenericSubsystem("transfer",
+                new WPI_VictorSPX(RobotMap.CAN.TRANSFER_VICTOR_1), new WPI_VictorSPX(RobotMap.CAN.TRANSFER_VICTOR_2));
 
-  @Override
-  public void autonomousInit() {
+        // Places a command which moves the transfer subsystem on the SmartDashboard.
+        robotNamespace.putData("move transfer", new MoveGenericSubsystem(transfer, TRANSFER_SPEED));
+    }
 
-  }
+    @Override
+    public void robotPeriodic() {
+        CommandScheduler.getInstance().run();
+    }
 
-  @Override
-  public void autonomousPeriodic() {
-  }
+    @Override
+    public void disabledInit() {
+    }
 
-  @Override
-  public void teleopInit() {
-  }
+    @Override
+    public void disabledPeriodic() {
+    }
 
-  @Override
-  public void teleopPeriodic() {
-  }
+    @Override
+    public void autonomousInit() {
 
-  @Override
-  public void testInit() {
-    CommandScheduler.getInstance().cancelAll();
-  }
+    }
 
-  @Override
-  public void testPeriodic() {
-  }
+    @Override
+    public void autonomousPeriodic() {
+    }
 
-  @Override
-  public void simulationInit() {
-  }
+    @Override
+    public void teleopInit() {
+    }
 
-  @Override
-  public void simulationPeriodic() {
-  }
+    @Override
+    public void teleopPeriodic() {
+    }
+
+    @Override
+    public void testInit() {
+        CommandScheduler.getInstance().cancelAll();
+    }
+
+    @Override
+    public void testPeriodic() {
+    }
+
+    @Override
+    public void simulationInit() {
+    }
+
+    @Override
+    public void simulationPeriodic() {
+    }
 }
