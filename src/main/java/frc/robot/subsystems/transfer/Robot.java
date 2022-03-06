@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
      * A subsystem which transfers cargos. It consists of two MotorControllers that move a timing strap. The strap
      * puts pressure on a cargo, and thus the cargo moves along with the strap.
      */
-    MotoredGenericSubsystem transfer;
+    private MotoredGenericSubsystem transfer;
 
 
     @Override
@@ -41,6 +41,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
+        transfer.periodic();
+        robotNamespace.update();
         CommandScheduler.getInstance().run();
     }
 
