@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 
 /**
  * A shooter subsystem that is controlled with two {@link WPI_TalonSRX}.<br>
- * In addition, it has settings for PID and matching commands, allowing it to interact with the {@link Shuffleboard}.
+ * In addition, it has settings for PID and matching commands, which you can use and control through the {@link Shuffleboard}.
  */
 public class Shooter extends MotoredGenericSubsystem {
 
