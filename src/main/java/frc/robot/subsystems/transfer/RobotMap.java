@@ -1,4 +1,4 @@
-package frc.robot.subsystems.transfer.commands;
+package frc.robot.subsystems.transfer;
 
 public class RobotMap {
 
