@@ -10,14 +10,12 @@ import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.util.TalonEncoder;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.function.Supplier;
 
 /**
  * A shooter subsystem that is controlled with two {@link WPI_TalonSRX}.<br>
- * It also has PID settings, in addition to matching commands which allow it to interact with
- * the {@link SmartDashboard}.
+ * In addition, it has settings for PID and matching commands, which you can use and control through the {@link Shuffleboard}.
  */
 public class Shooter extends MotoredGenericSubsystem {
 
