@@ -1,4 +1,4 @@
-package frc.robot.drivetrains.tankdrivetrain;
+package frc.robot.drivetrains.tankDrivetrain;
 
 import edu.wpi.first.wpilibj.Joystick;
 
