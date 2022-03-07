@@ -151,7 +151,7 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     /**
-     * @return the robot's current angle in the range [-180, 180]
+     * @return the robot's current angle in the range (-180, 180]
      */
     public double getModifiedAngle() {
         double angle = gyro.getAngle() % 360;
