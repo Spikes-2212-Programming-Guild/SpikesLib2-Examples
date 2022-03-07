@@ -2,10 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.drivetrains.tankdrivetrain;
+package frc.robot.drivetrains.advancedtankdrivetrain;
 
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.dashboard.RootNamespace;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -13,7 +14,7 @@ public class Robot extends TimedRobot {
 
     /**
      * <p> A namespace is an object that holds values on a {@link NetworkTable}.</p>
-     * This is the main namespace which should host the main values and commands which don't belong to a single subsystem
+     * This is the main namespace which should host the main values and commands that don't belong to a single subsystem
      * or command.
      */
     private final RootNamespace robotNamespace = new RootNamespace("robot");
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         drivetrain.periodic();
+        robotNamespace.update();
         CommandScheduler.getInstance().run();
     }
 
@@ -55,7 +57,6 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getLeftX, oi::getRightY);
         drivetrain.setDefaultCommand(driveArcade);
-
     }
 
     @Override
