@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
     /**
      * This simple drivetrain has only 4 talons, 2 for each side. <br>
      * The <b>ONLY</b> thing you need to change is the ports in the {@link RobotMap},
-     * and maybe the type of your {@link MotorController}
+     * and maybe the type of your {@link MotorController}.
      */
     private TankDrivetrain drivetrain;
 
@@ -60,7 +60,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-
     }
 
     @Override
