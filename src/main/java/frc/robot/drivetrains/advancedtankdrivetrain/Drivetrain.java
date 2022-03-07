@@ -44,9 +44,9 @@ public class Drivetrain extends TankDrivetrain {
      * still able to be changed via the shuffleboard.
      */
 
-    private static final Supplier<Double> LEFT_CORRECTIONS =
+    private static final Supplier<Double> LEFT_CORRECTION =
             corrections.addConstantDouble("left correction", 1);
-    private static final Supplier<Double> RIGHT_CORRECTIONS =
+    private static final Supplier<Double> RIGHT_CORRECTION =
             corrections.addConstantDouble("right correction", 1);
 
     /**
