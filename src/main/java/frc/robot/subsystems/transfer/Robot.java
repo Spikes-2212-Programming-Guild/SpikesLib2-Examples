@@ -21,15 +21,14 @@ public class Robot extends TimedRobot {
      */
     private final RootNamespace robotNamespace = new RootNamespace("robot");
 
-    /*
+    /**
      * A subsystem which transfers cargos. It consists of two MotorControllers that move a timing strap. The strap
-     * puts pressure on a ball, and thus the cargo moves along with the strap.
+     * puts pressure on a ball, and thus moves it along with the strap.
      */
     private MotoredGenericSubsystem transfer;
 
     @Override
     public void robotInit() {
-
         transfer = new MotoredGenericSubsystem("transfer",
                 new WPI_VictorSPX(RobotMap.CAN.TRANSFER_VICTOR_1), new WPI_VictorSPX(RobotMap.CAN.TRANSFER_VICTOR_2));
 
