@@ -87,9 +87,9 @@ public class Drivetrain extends TankDrivetrain {
     private static Drivetrain instance;
 
     public static Drivetrain getInstance() {
-        if (instance == null) {
+        if (instance == null)
             instance = new Drivetrain();
-        }
+
         return instance;
     }
 
