@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.command.drivetrains.commands.DriveTankWithPID;
+import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
+import com.spikes2212.control.FeedForwardController;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
@@ -14,6 +16,10 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.networktables.NetworkTable;
 
 import java.util.function.Supplier;
 
@@ -37,9 +43,10 @@ public class Drivetrain extends TankDrivetrain {
      * Since they were made using {@code addConstantDouble}, they are constants relative to the code itself, but are
      * still able to be changed via the shuffleboard.
      */
-    private static final Supplier<Double> LEFT_CORRECTION =
+
+    private static final Supplier<Double> LEFT_CORRECTIONS =
             corrections.addConstantDouble("left correction", 1);
-    private static final Supplier<Double> RIGHT_CORRECTION =
+    private static final Supplier<Double> RIGHT_CORRECTIONS =
             corrections.addConstantDouble("right correction", 1);
 
     /**
@@ -93,6 +100,7 @@ public class Drivetrain extends TankDrivetrain {
     public static Drivetrain getInstance() {
         if (instance == null)
             instance = new Drivetrain();
+      
         return instance;
     }
 
@@ -112,6 +120,7 @@ public class Drivetrain extends TankDrivetrain {
         );
         this.leftEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_A, RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_B);
         this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_A, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_B);
+      
         leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.gyro = new ADXRS450_Gyro();
@@ -138,8 +147,8 @@ public class Drivetrain extends TankDrivetrain {
         rootNamespace.putData("reset gyro", new InstantCommand(this::resetGyro));
         rootNamespace.putData("drive forward", new DriveArcade(this, DRIVE_SPEED, () -> 0.0));
         rootNamespace.putData("drive backward", new DriveArcade(this, () -> -DRIVE_SPEED.get(), () -> 0.0));
-        rootNamespace.putData("drive meters", new DriveTankWithPID(this, pidSettings, pidSettings,
-                METERS_TO_DRIVE, METERS_TO_DRIVE, this::getLeftDistance, this::getRightDistance, ffSettings, ffSettings));
+        rootNamespace.putData("drive meters", new DriveArcadeWithPID(this, this::getLeftDistance,
+                METERS_TO_DRIVE, DRIVE_SPEED, pidSettings, ffSettings));
     }
 
     /**
