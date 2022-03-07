@@ -55,22 +55,30 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> METERS_TO_DRIVE = rootNamespace.addConstantDouble("meters to drive", 2);
 
     /**
+     * A {@link Namespace} is an object which holds values on a {@link NetworkTable}. <br>
+     * This is a child, or a sub-namespace, of the subsystem's {@link RootNamespace}.
+     */
+    private final Namespace pidNamespace = rootNamespace.addChild("pid");
+
+    /**
      * Places the PID constants on the {@link Shuffleboard}.
      */
-    private final Supplier<Double> kP = rootNamespace.addConstantDouble("kP", 1);
-    private final Supplier<Double> kI = rootNamespace.addConstantDouble("kI", 0);
-    private final Supplier<Double> kD = rootNamespace.addConstantDouble("kD", 0);
-    private final Supplier<Double> TOLERANCE = rootNamespace.addConstantDouble("tolerance", 0);
-    private final Supplier<Double> WAIT_TIME = rootNamespace.addConstantDouble("wait time", 1);
+    private final Supplier<Double> kP = pidNamespace.addConstantDouble("kP", 1);
+    private final Supplier<Double> kI = pidNamespace.addConstantDouble("kI", 0);
+    private final Supplier<Double> kD = pidNamespace.addConstantDouble("kD", 0);
+    private final Supplier<Double> TOLERANCE = pidNamespace.addConstantDouble("tolerance", 0);
+    private final Supplier<Double> WAIT_TIME = pidNamespace.addConstantDouble("wait time", 1);
 
     private final PIDSettings pidSettings = new PIDSettings(kP, kI, kD, TOLERANCE, WAIT_TIME);
+
+    private final Namespace ffNamespace = rootNamespace.addChild("feed forward");
 
     /**
      * Places the FeedForward constants on the {@link Shuffleboard}.
      */
-    private final Supplier<Double> kS = rootNamespace.addConstantDouble("kS", 0);
-    private final Supplier<Double> kV = rootNamespace.addConstantDouble("kV", 0);
-    private final Supplier<Double> kA = rootNamespace.addConstantDouble("kA", 0);
+    private final Supplier<Double> kS = ffNamespace.addConstantDouble("kS", 0);
+    private final Supplier<Double> kV = ffNamespace.addConstantDouble("kV", 0);
+    private final Supplier<Double> kA = ffNamespace.addConstantDouble("kA", 0);
 
     private final FeedForwardSettings ffSettings = new FeedForwardSettings(kS, kV, kA);
 
@@ -94,17 +102,17 @@ public class Drivetrain extends TankDrivetrain {
                 "drivetrain",
                 new BustedMotorControllerGroup(
                         LEFT_CORRECTIONS,
-                        new WPI_TalonSRX(RobotMap.CAN.LEFT_TALON_1),
-                        new WPI_TalonSRX(RobotMap.CAN.LEFT_TALON_2)
+                        new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_1),
+                        new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_2)
                 ),
                 new BustedMotorControllerGroup(
                         RIGHT_CORRECTIONS,
-                        new WPI_TalonSRX(RobotMap.CAN.RIGHT_TALON_1),
-                        new WPI_TalonSRX(RobotMap.CAN.RIGHT_TALON_2)
+                        new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_1),
+                        new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_2)
                 )
         );
-        this.leftEncoder = new Encoder(RobotMap.DIO.LEFT_ENCODER_A, RobotMap.DIO.LEFT_ENCODER_B);
-        this.rightEncoder = new Encoder(RobotMap.DIO.RIGHT_ENCODER_A, RobotMap.DIO.RIGHT_ENCODER_B);
+        this.leftEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_A, RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_B);
+        this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_A, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_B);
         leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.gyro = new ADXRS450_Gyro();
