@@ -17,14 +17,14 @@ public class Robot extends TimedRobot {
 
     /**
      * <p> A namespace is an object that holds values on a {@link NetworkTable}.</p>
-     * This is the main namespace which should host the main values and commands which don't belong to a single subsystem
+     * This is the main namespace which should host the main values and commands that don't belong to a single subsystem
      * or command.
      */
     private final RootNamespace robotNamespace = new RootNamespace("robot");
 
     /**
      * This simple drivetrain has only 4 talons, 2 for each side. <br>
-     * The <b>ONLY</b> thing you need to change is the ports in the {@link RobotMap}
+     * The <b>ONLY</b> thing you need to change is the ports in the {@link RobotMap}.
      */
     private TankDrivetrain drivetrain;
 
@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         drivetrain.periodic();
+        robotNamespace.update();
         CommandScheduler.getInstance().run();
     }
 
@@ -68,7 +69,6 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         DriveArcade driveArcade = new DriveArcade(drivetrain, oi::getLeftX, oi::getRightY);
         drivetrain.setDefaultCommand(driveArcade);
-
     }
 
     @Override
