@@ -3,17 +3,17 @@ package frc.robot.drivetrains.tankdrivetrain;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
-import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
-import com.spikes2212.control.FeedForwardController;
+import com.spikes2212.command.drivetrains.commands.DriveTankWithPID;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.BustedMotorControllerGroup;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.networktables.NetworkTable;
 
 import java.util.function.Supplier;
 
@@ -53,8 +53,9 @@ public class Drivetrain extends TankDrivetrain {
 
     private final Supplier<Double> DRIVE_SPEED = rootNamespace.addConstantDouble("drive speed", 0.5);
     private final Supplier<Double> METERS_TO_DRIVE = rootNamespace.addConstantDouble("meters to drive", 2);
+
     /**
-     * constants for a PID controller
+     * Places the PID constants on the {@link Shuffleboard}.
      */
     private final Supplier<Double> kP = rootNamespace.addConstantDouble("kP", 1);
     private final Supplier<Double> kI = rootNamespace.addConstantDouble("kI", 0);
@@ -65,7 +66,7 @@ public class Drivetrain extends TankDrivetrain {
     private final PIDSettings pidSettings = new PIDSettings(kP, kI, kD, TOLERANCE, WAIT_TIME);
 
     /**
-     * Constants for a {@link FeedForwardController}.
+     * Places the FeedForward constants on the {@link Shuffleboard}.
      */
     private final Supplier<Double> kS = rootNamespace.addConstantDouble("kS", 0);
     private final Supplier<Double> kV = rootNamespace.addConstantDouble("kV", 0);
@@ -74,7 +75,10 @@ public class Drivetrain extends TankDrivetrain {
     private final FeedForwardSettings ffSettings = new FeedForwardSettings(kS, kV, kA);
 
     /**
-     * Class singleton - since there should only be one instance of each subsystem, each subsystem class contains one.
+     * The Drivetrain class is a singleton, which means it has only one instance. Since the constructor is private, a new
+     * instance cannot be instantiated, and you can only access the existing instance via the {@code getInstance()}
+     * function.
+     * Since the robot itself has only one drivetrain, we want a single instance of the class.
      */
     private static Drivetrain instance;
 
@@ -106,33 +110,6 @@ public class Drivetrain extends TankDrivetrain {
         this.gyro = new ADXRS450_Gyro();
     }
 
-    public double getLeftDistance() {
-        return leftEncoder.getDistance();
-    }
-
-    public double getRightDistance() {
-        return rightEncoder.getDistance();
-    }
-
-    /**
-     * @return the robot's current angle in the range (0, infinity)
-     */
-    public double getAngle() {
-        return gyro.getAngle();
-    }
-
-    /**
-     * @return the robot's current angle in the range (-180, 180]
-     */
-    public double getModifiedAngle() {
-        double angle = gyro.getAngle() % 360;
-        if (angle > 180)
-            angle -= 360;
-        if (angle < -180)
-            angle += 360;
-        return angle;
-    }
-
     public void resetEncoders() {
         leftEncoder.reset();
         rightEncoder.reset();
@@ -148,13 +125,41 @@ public class Drivetrain extends TankDrivetrain {
     public void configureDashboard() {
         rootNamespace.putNumber("left distance", this::getLeftDistance);
         rootNamespace.putNumber("right distance", this::getRightDistance);
-        rootNamespace.putNumber("angle", this::getModifiedAngle);
+        rootNamespace.putNumber("gyro angle", this::getAngle);
+        rootNamespace.putNumber("gyro modified angle", this::getModifiedAngle);
         rootNamespace.putData("reset encoders", new InstantCommand(this::resetEncoders));
         rootNamespace.putData("reset gyro", new InstantCommand(this::resetGyro));
         rootNamespace.putData("drive forward", new DriveArcade(this, DRIVE_SPEED, () -> 0.0));
         rootNamespace.putData("drive backward", new DriveArcade(this, () -> -DRIVE_SPEED.get(), () -> 0.0));
-        rootNamespace.putData("drive meters", new DriveArcadeWithPID(this, this::getLeftDistance,
-                METERS_TO_DRIVE, DRIVE_SPEED, pidSettings, ffSettings));
+        rootNamespace.putData("drive meters", new DriveTankWithPID(this, pidSettings, pidSettings,
+                METERS_TO_DRIVE, METERS_TO_DRIVE, this::getLeftDistance, this::getRightDistance, ffSettings, ffSettings));
+    }
+
+    /**
+     * @return the robot's current angle in the range (-infinity, infinity)
+     */
+    public double getAngle() {
+        return gyro.getAngle();
+    }
+
+    /**
+     * @return the robot's current angle in the range (-180, 180)
+     */
+    public double getModifiedAngle() {
+        double angle = gyro.getAngle() % 360;
+        if (angle > 180)
+            angle -= 360;
+        if (angle < -180)
+            angle += 360;
+        return angle;
+    }
+
+    public double getLeftDistance() {
+        return leftEncoder.getDistance();
+    }
+
+    public double getRightDistance() {
+        return rightEncoder.getDistance();
     }
 
     public PIDSettings getPIDSettings() {
