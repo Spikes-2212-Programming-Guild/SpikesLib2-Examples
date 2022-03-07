@@ -1,4 +1,4 @@
-package frc.robot.drivetrains.tankdrivetrain;
+package frc.robot.drivetrains.advancedtankdrivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
@@ -157,7 +157,7 @@ public class Drivetrain extends TankDrivetrain {
         double angle = gyro.getAngle() % 360;
         if (angle > 180)
             angle -= 360;
-        if (angle < -180)
+        if (angle <= -180)
             angle += 360;
         return angle;
     }
