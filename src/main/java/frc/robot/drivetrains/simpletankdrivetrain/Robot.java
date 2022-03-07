@@ -25,8 +25,8 @@ public class Robot extends TimedRobot {
 
     /**
      * This simple drivetrain has only 4 talons, 2 for each side. <br>
-     * The <b>ONLY</b> thing you need to change is the ports in the {@link RobotMap},
-     * and maybe the type of your {@link MotorController}.
+     * The <b>ONLY</b> thing you may have to change are the ports in the {@link RobotMap},
+     * and the type of your {@link MotorController}.
      */
     private TankDrivetrain drivetrain;
 
