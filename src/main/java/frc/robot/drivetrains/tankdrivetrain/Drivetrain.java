@@ -37,9 +37,9 @@ public class Drivetrain extends TankDrivetrain {
      * Since they were made using {@code addConstantDouble}, they are constants relative to the code itself, but are
      * still able to be changed via the shuffleboard.
      */
-    private static final Supplier<Double> LEFT_CORRECTIONS =
+    private static final Supplier<Double> LEFT_CORRECTION =
             corrections.addConstantDouble("left correction", 1);
-    private static final Supplier<Double> RIGHT_CORRECTIONS =
+    private static final Supplier<Double> RIGHT_CORRECTION =
             corrections.addConstantDouble("right correction", 1);
 
     /**
@@ -101,12 +101,12 @@ public class Drivetrain extends TankDrivetrain {
         super(
                 "drivetrain",
                 new BustedMotorControllerGroup(
-                        LEFT_CORRECTIONS,
+                        LEFT_CORRECTION,
                         new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_1),
                         new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_2)
                 ),
                 new BustedMotorControllerGroup(
-                        RIGHT_CORRECTIONS,
+                        RIGHT_CORRECTION,
                         new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_1),
                         new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_2)
                 )
