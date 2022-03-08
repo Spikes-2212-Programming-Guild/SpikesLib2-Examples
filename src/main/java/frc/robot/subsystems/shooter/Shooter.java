@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 public class Shooter extends MotoredGenericSubsystem {
 
     /**
-     * Amount of rotations the wheel does for each encoder's pulse.
+     * Number of rotations the wheel does for each encoder's pulse.
      *
      * <p>To find the correct distance per pulse, you will need to find the number <br>
      * of pulses in one rotation (e.g. 4096). The distance per pulse will be 1 divided by this number.</p>
