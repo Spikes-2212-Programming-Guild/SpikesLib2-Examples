@@ -7,4 +7,5 @@ Examples of how to use the [SpikesLib](https://github.com/Spikes-2212-Programmin
   - Each interface in RobotMap represents a different port.
 
 ## How To Use
-If you want to use the example code for yourself, simply copy & paste it, and make sure to change the ports in RobotMap.
+If you want to use the example code for yourself, simply copy & paste it, and make sure to change the ports in RobotMap,
+as well as the MotorController type when necessary.
