@@ -18,6 +18,8 @@ public class Robot extends TimedRobot {
 
     /**
      * A namespace is an object that holds values in a {@link NetworkTable}.
+     * This is the main namespace which should host the main values and commands that don't belong to a single subsystem
+     * or command.
      */
     private final RootNamespace robotNamespace = new RootNamespace("robot");
 
