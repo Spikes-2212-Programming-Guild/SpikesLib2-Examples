@@ -3,17 +3,17 @@ package frc.robot.drivetrains.advancedtankdrivetrain;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
-import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
-import com.spikes2212.control.FeedForwardController;
+import com.spikes2212.command.drivetrains.commands.DriveTankWithPID;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
 import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.BustedMotorControllerGroup;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.networktables.NetworkTable;
 
 import java.util.function.Supplier;
 
@@ -37,9 +37,10 @@ public class Drivetrain extends TankDrivetrain {
      * Since they were made using {@code addConstantDouble}, they are constants relative to the code itself, but are
      * still able to be changed via the shuffleboard.
      */
-    private static final Supplier<Double> LEFT_CORRECTIONS =
+
+    private static final Supplier<Double> LEFT_CORRECTION =
             corrections.addConstantDouble("left correction", 1);
-    private static final Supplier<Double> RIGHT_CORRECTIONS =
+    private static final Supplier<Double> RIGHT_CORRECTION =
             corrections.addConstantDouble("right correction", 1);
 
     /**
@@ -53,35 +54,47 @@ public class Drivetrain extends TankDrivetrain {
 
     private final Supplier<Double> DRIVE_SPEED = rootNamespace.addConstantDouble("drive speed", 0.5);
     private final Supplier<Double> METERS_TO_DRIVE = rootNamespace.addConstantDouble("meters to drive", 2);
+
     /**
-     * constants for a PID controller
+     * A {@link Namespace} is an object which holds values on a {@link NetworkTable}. <br>
+     * This is a child, or a sub-namespace, of the subsystem's {@link RootNamespace}.
      */
-    private final Supplier<Double> kP = rootNamespace.addConstantDouble("kP", 1);
-    private final Supplier<Double> kI = rootNamespace.addConstantDouble("kI", 0);
-    private final Supplier<Double> kD = rootNamespace.addConstantDouble("kD", 0);
-    private final Supplier<Double> TOLERANCE = rootNamespace.addConstantDouble("tolerance", 0);
-    private final Supplier<Double> WAIT_TIME = rootNamespace.addConstantDouble("wait time", 1);
+    private final Namespace pidNamespace = rootNamespace.addChild("pid");
+
+    /**
+     * Places the PID constants on the {@link Shuffleboard}.
+     */
+    private final Supplier<Double> kP = pidNamespace.addConstantDouble("kP", 1);
+    private final Supplier<Double> kI = pidNamespace.addConstantDouble("kI", 0);
+    private final Supplier<Double> kD = pidNamespace.addConstantDouble("kD", 0);
+    private final Supplier<Double> TOLERANCE = pidNamespace.addConstantDouble("tolerance", 0);
+    private final Supplier<Double> WAIT_TIME = pidNamespace.addConstantDouble("wait time", 1);
 
     private final PIDSettings pidSettings = new PIDSettings(kP, kI, kD, TOLERANCE, WAIT_TIME);
 
+    private final Namespace ffNamespace = rootNamespace.addChild("feed forward");
+
     /**
-     * Constants for a {@link FeedForwardController}.
+     * Places the FeedForward constants on the {@link Shuffleboard}.
      */
-    private final Supplier<Double> kS = rootNamespace.addConstantDouble("kS", 0);
-    private final Supplier<Double> kV = rootNamespace.addConstantDouble("kV", 0);
-    private final Supplier<Double> kA = rootNamespace.addConstantDouble("kA", 0);
+    private final Supplier<Double> kS = ffNamespace.addConstantDouble("kS", 0);
+    private final Supplier<Double> kV = ffNamespace.addConstantDouble("kV", 0);
+    private final Supplier<Double> kA = ffNamespace.addConstantDouble("kA", 0);
 
     private final FeedForwardSettings ffSettings = new FeedForwardSettings(kS, kV, kA);
 
     /**
-     * Class singleton - since there should only be one instance of each subsystem, each subsystem class contains one.
+     * The Drivetrain class is a singleton, which means it has only one instance. Since the constructor is private, a new
+     * instance cannot be instantiated, and you can only access the existing instance via the {@link #getInstance}
+     * function.
+     * Since the robot itself has only one drivetrain, we want a single instance of the class.
      */
     private static Drivetrain instance;
 
     public static Drivetrain getInstance() {
-        if (instance == null) {
+        if (instance == null)
             instance = new Drivetrain();
-        }
+      
         return instance;
     }
 
@@ -89,48 +102,22 @@ public class Drivetrain extends TankDrivetrain {
         super(
                 "drivetrain",
                 new BustedMotorControllerGroup(
-                        LEFT_CORRECTIONS,
-                        new WPI_TalonSRX(RobotMap.CAN.LEFT_TALON_1),
-                        new WPI_TalonSRX(RobotMap.CAN.LEFT_TALON_2)
+                        LEFT_CORRECTION,
+                        new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_1),
+                        new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_LEFT_TALON_2)
                 ),
                 new BustedMotorControllerGroup(
-                        RIGHT_CORRECTIONS,
-                        new WPI_TalonSRX(RobotMap.CAN.RIGHT_TALON_1),
-                        new WPI_TalonSRX(RobotMap.CAN.RIGHT_TALON_2)
+                        RIGHT_CORRECTION,
+                        new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_1),
+                        new WPI_TalonSRX(RobotMap.CAN.DRIVETRAIN_RIGHT_TALON_2)
                 )
         );
-        this.leftEncoder = new Encoder(RobotMap.DIO.LEFT_ENCODER_A, RobotMap.DIO.LEFT_ENCODER_B);
-        this.rightEncoder = new Encoder(RobotMap.DIO.RIGHT_ENCODER_A, RobotMap.DIO.RIGHT_ENCODER_B);
+        this.leftEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_A, RobotMap.DIO.DRIVETRAIN_LEFT_ENCODER_B);
+        this.rightEncoder = new Encoder(RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_A, RobotMap.DIO.DRIVETRAIN_RIGHT_ENCODER_B);
+      
         leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         this.gyro = new ADXRS450_Gyro();
-    }
-
-    public double getLeftDistance() {
-        return leftEncoder.getDistance();
-    }
-
-    public double getRightDistance() {
-        return rightEncoder.getDistance();
-    }
-
-    /**
-     * @return the robot's current angle in the range (0, infinity)
-     */
-    public double getAngle() {
-        return gyro.getAngle();
-    }
-
-    /**
-     * @return the robot's current angle in the range (-180, 180]
-     */
-    public double getModifiedAngle() {
-        double angle = gyro.getAngle() % 360;
-        if (angle > 180)
-            angle -= 360;
-        if (angle < -180)
-            angle += 360;
-        return angle;
     }
 
     public void resetEncoders() {
@@ -148,13 +135,41 @@ public class Drivetrain extends TankDrivetrain {
     public void configureDashboard() {
         rootNamespace.putNumber("left distance", this::getLeftDistance);
         rootNamespace.putNumber("right distance", this::getRightDistance);
-        rootNamespace.putNumber("angle", this::getModifiedAngle);
+        rootNamespace.putNumber("gyro angle", this::getAngle);
+        rootNamespace.putNumber("gyro modified angle", this::getModifiedAngle);
         rootNamespace.putData("reset encoders", new InstantCommand(this::resetEncoders));
         rootNamespace.putData("reset gyro", new InstantCommand(this::resetGyro));
         rootNamespace.putData("drive forward", new DriveArcade(this, DRIVE_SPEED, () -> 0.0));
         rootNamespace.putData("drive backward", new DriveArcade(this, () -> -DRIVE_SPEED.get(), () -> 0.0));
-        rootNamespace.putData("drive meters", new DriveArcadeWithPID(this, this::getLeftDistance,
-                METERS_TO_DRIVE, DRIVE_SPEED, pidSettings, ffSettings));
+        rootNamespace.putData("drive meters", new DriveTankWithPID(this, pidSettings, pidSettings, METERS_TO_DRIVE,
+                METERS_TO_DRIVE, this::getLeftDistance, this::getRightDistance, ffSettings, ffSettings));
+    }
+
+    /**
+     * @return the robot's current angle in the range (-infinity, infinity)
+     */
+    public double getAngle() {
+        return gyro.getAngle();
+    }
+
+    /**
+     * @return the robot's current angle in the range (-180, 180]
+     */
+    public double getModifiedAngle() {
+        double angle = gyro.getAngle() % 360;
+        if (angle > 180)
+            angle -= 360;
+        if (angle <= -180)
+            angle += 360;
+        return angle;
+    }
+
+    public double getLeftDistance() {
+        return leftEncoder.getDistance();
+    }
+
+    public double getRightDistance() {
+        return rightEncoder.getDistance();
     }
 
     public PIDSettings getPIDSettings() {
