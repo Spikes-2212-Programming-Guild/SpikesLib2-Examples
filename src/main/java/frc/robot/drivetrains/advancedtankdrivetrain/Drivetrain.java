@@ -128,7 +128,7 @@ public class Drivetrain extends TankDrivetrain {
     }
 
     /**
-     * Sets the values which appear on the shuffleboard using a {@link Namespace}.
+     * Adds any commands or data from this subsystem to the {@link Shuffleboard}.
      */
     public void configureDashboard() {
         rootNamespace.putNumber("left distance", this::getLeftDistance);
