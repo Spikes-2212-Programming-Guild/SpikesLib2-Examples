@@ -51,6 +51,9 @@ public class Shooter extends MotoredGenericSubsystem {
     private final Supplier<Double> WAIT_TIME = pidNamespace.addConstantDouble("wait time", 1);
     private final Supplier<Double> targetVelocity = pidNamespace.addConstantDouble("target speed", 60);
 
+    /**
+     * Places the feed forward constants on the {@link Shuffleboard}.
+     */
     private final Supplier<Double> kS = ffNamespace.addConstantDouble("kS", 0);
     private final Supplier<Double> kV = ffNamespace.addConstantDouble("kV", 0);
 
