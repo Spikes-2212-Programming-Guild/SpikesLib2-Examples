@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import java.util.function.Supplier;
 
 /**
- * A climber subsystem which consists of an arm that is controlled by a VictorSPX. The arm
+ * A climber subsystem which consists of an arm that is controlled by a {@link WPI_VictorSPX}. The arm
  * can move up and grab a bar, then down to pull the robot up; thus making the robot climb. <br>
  * A game that this example subsystem can be used in is Rapid React 2022.
  */
