@@ -4,8 +4,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.spikes2212.command.drivetrains.TankDrivetrain;
 import com.spikes2212.command.drivetrains.commands.DriveArcade;
 import com.spikes2212.command.drivetrains.commands.DriveTankWithPID;
-import com.spikes2212.command.drivetrains.commands.DriveArcadeWithPID;
-import com.spikes2212.control.FeedForwardController;
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
@@ -16,10 +14,6 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.networktables.NetworkTable;
 
 import java.util.function.Supplier;
 
@@ -147,8 +141,8 @@ public class Drivetrain extends TankDrivetrain {
         rootNamespace.putData("reset gyro", new InstantCommand(this::resetGyro));
         rootNamespace.putData("drive forward", new DriveArcade(this, DRIVE_SPEED, () -> 0.0));
         rootNamespace.putData("drive backward", new DriveArcade(this, () -> -DRIVE_SPEED.get(), () -> 0.0));
-        rootNamespace.putData("drive meters", new DriveArcadeWithPID(this, this::getLeftDistance,
-                METERS_TO_DRIVE, DRIVE_SPEED, pidSettings, ffSettings));
+        rootNamespace.putData("drive meters", new DriveTankWithPID(this, pidSettings, pidSettings, METERS_TO_DRIVE,
+                METERS_TO_DRIVE, this::getLeftDistance, this::getRightDistance, ffSettings, ffSettings));
     }
 
     /**
