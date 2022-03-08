@@ -19,12 +19,13 @@ public class Robot extends TimedRobot {
      */
     private final RootNamespace robotNamespace = new RootNamespace("robot");
 
-    private final Drivetrain drivetrain = Drivetrain.getInstance();
+    private Drivetrain drivetrain;
 
     private OI oi;
 
     @Override
     public void robotInit() {
+        drivetrain = Drivetrain.getInstance();
         oi = new OI();
         drivetrain.configureDashboard();
     }
