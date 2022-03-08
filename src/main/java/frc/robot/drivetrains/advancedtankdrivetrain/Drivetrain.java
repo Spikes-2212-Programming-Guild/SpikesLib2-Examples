@@ -56,7 +56,6 @@ public class Drivetrain extends TankDrivetrain {
     private final Supplier<Double> METERS_TO_DRIVE = rootNamespace.addConstantDouble("meters to drive", 2);
 
     /**
-     * A {@link Namespace} is an object which holds values on a {@link NetworkTable}. <br>
      * This is a child, or a sub-namespace, of the subsystem's {@link RootNamespace}.
      */
     private final Namespace pidNamespace = rootNamespace.addChild("pid");
