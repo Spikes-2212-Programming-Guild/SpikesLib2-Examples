@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * A gripper subsystem which consists of two motors, that both rotate either inwards or
  * outwards. If they both rotate inwards, the gripper intakes a ball. If they both rotate outwards, the gripper
- * dispenses the cargo.
+ * dispenses the ball.
  */
 public class Gripper extends MotoredGenericSubsystem {
 
