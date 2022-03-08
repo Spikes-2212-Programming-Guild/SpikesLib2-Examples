@@ -7,6 +7,7 @@ import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystemWith
 import com.spikes2212.control.FeedForwardSettings;
 import com.spikes2212.control.PIDSettings;
 import com.spikes2212.dashboard.Namespace;
+import com.spikes2212.dashboard.RootNamespace;
 import com.spikes2212.util.TalonEncoder;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -33,25 +34,27 @@ public class Shooter extends MotoredGenericSubsystem {
     /**
      * A {@link Namespace} is an object that holds values in a {@link NetworkTable}.<br>
      * This namespace holds the necessary constants for the PID loop used by this subsystem.
+     * It is a child (a sub-namespace) of the {@link RootNamespace}.
      */
-    private final Namespace PID = rootNamespace.addChild("PID");
+    private final Namespace pidNamespace = rootNamespace.addChild("PID");
+    private final Namespace ffNamespace = rootNamespace.addChild("feed forward");
 
     public final Supplier<Double> SHOOTING_SPEED = rootNamespace.addConstantDouble("speed", 0.4);
 
     /**
      * Places the PID constants on the {@link Shuffleboard}.
      */
-    private final Supplier<Double> kP = PID.addConstantDouble("kP", 1);
-    private final Supplier<Double> kI = PID.addConstantDouble("kI", 0);
-    private final Supplier<Double> kD = PID.addConstantDouble("kD", 0);
-    private final Supplier<Double> kS = PID.addConstantDouble("kS", 0);
-    private final Supplier<Double> kV = PID.addConstantDouble("kV", 0);
-    private final Supplier<Double> tolerance = PID.addConstantDouble("tolerance", 0);
-    private final Supplier<Double> waitTime = PID.addConstantDouble("wait time", 1);
+    private final Supplier<Double> kP = pidNamespace.addConstantDouble("kP", 1);
+    private final Supplier<Double> kI = pidNamespace.addConstantDouble("kI", 0);
+    private final Supplier<Double> kD = pidNamespace.addConstantDouble("kD", 0);
+    private final Supplier<Double> TOLERANCE = pidNamespace.addConstantDouble("tolerance", 0);
+    private final Supplier<Double> WAIT_TIME = pidNamespace.addConstantDouble("wait time", 1);
+    private final Supplier<Double> targetVelocity = pidNamespace.addConstantDouble("target speed", 60);
 
-    private final Supplier<Double> targetVelocity = PID.addConstantDouble("target speed", 60);
+    private final Supplier<Double> kS = ffNamespace.addConstantDouble("kS", 0);
+    private final Supplier<Double> kV = ffNamespace.addConstantDouble("kV", 0);
 
-    public final PIDSettings pidSettings = new PIDSettings(kP, kI, kD, tolerance, waitTime);
+    public final PIDSettings pidSettings = new PIDSettings(kP, kI, kD, TOLERANCE, WAIT_TIME);
     public final FeedForwardSettings ffSettings = new FeedForwardSettings(kS, kV, () -> 0.0);
 
     /**
