@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.spikes2212.command.genericsubsystem.MotoredGenericSubsystem;
 import com.spikes2212.command.genericsubsystem.commands.MoveGenericSubsystem;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -39,7 +40,7 @@ public class Gripper extends MotoredGenericSubsystem {
     }
 
     /**
-     * Adds any commands or data from this subsystem to the {@link SmartDashboard}.
+     * Adds any commands or data from this subsystem to the {@link Shuffleboard}.
      */
     @Override
     public void configureDashboard() {
