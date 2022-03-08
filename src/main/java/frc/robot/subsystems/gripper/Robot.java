@@ -19,6 +19,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    gripper.periodic();
     CommandScheduler.getInstance().run();
   }
 
