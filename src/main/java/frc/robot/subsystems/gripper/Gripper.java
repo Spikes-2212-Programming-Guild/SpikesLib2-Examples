@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * A gripper subsystem which consists of two motors, that both rotate either inwards or
- * outwards. If they both rotate inwards, the gripper intakes a cargo. If they both rotate outwards, the gripper
+ * outwards. If they both rotate inwards, the gripper intakes a ball. If they both rotate outwards, the gripper
  * dispenses the cargo.
  */
 public class Gripper extends MotoredGenericSubsystem {
@@ -20,7 +20,7 @@ public class Gripper extends MotoredGenericSubsystem {
      * The Gripper class is a singleton, which means it has only one instance. Since the constructor is private, a new
      * instance cannot be instantiated, and you can only access the existing instance via the {@link #getInstance()}
      * function. <br>
-     * Since the robot itself only has one gripper, we want only one instance of the class.
+     * Since the robot itself only has one gripper, we want only a single instance of the class.
      */
     private static Gripper instance;
 
