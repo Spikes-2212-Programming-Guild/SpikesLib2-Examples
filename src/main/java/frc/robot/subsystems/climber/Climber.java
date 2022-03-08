@@ -16,12 +16,12 @@ import java.util.function.Supplier;
 public class Climber extends MotoredGenericSubsystem {
 
     /**
-     * The speed in which the arms will move up to catch the bar (in order to climb).
+     * The speed in which the arms move up to catch the bar (in order to climb).
      */
     public static final double UP_SPEED = 0.3;
 
     /**
-     * The speed in which the arms will move down in order to take the robot up after they caught the bar.
+     * The speed in which the arms move down in order to take the robot up after they caught the bar.
      */
     public static final double DOWN_SPEED = -0.4;
 
