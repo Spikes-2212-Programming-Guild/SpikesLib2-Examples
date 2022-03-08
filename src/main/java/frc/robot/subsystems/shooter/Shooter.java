@@ -62,7 +62,7 @@ public class Shooter extends MotoredGenericSubsystem {
 
     /**
      * The Shooter class is a singleton, which means it has only one instance. Since the constructor is private, a new
-     * instance cannot be instantiated, and you can only access the existing instance via the {@code getInstance()}
+     * instance cannot be instantiated, and you can only access the existing instance via the {@link #getInstance()}
      * function.
      * Since the robot itself has only one shooter, we want only a single instance of the class.
      */
